@@ -348,6 +348,17 @@ extern "C" {
     pub fn STT_FinishStream(aSctx: *mut StreamingState) -> *mut ::std::os::raw::c_char;
 
     #[doc = " @brief Compute the final decoding of an ongoing streaming inference and return"]
+    #[doc = "        the result. Signals the end of an ongoing streaming inference."]
+    #[doc = ""]
+    #[doc = " @param aSctx A streaming state pointer returned by {@link STT_CreateStream()}."]
+    #[doc = ""]
+    #[doc = " @return The STT result. The user is responsible for freeing the string using"]
+    #[doc = "         {@link STT_FreeString()}."]
+    #[doc = ""]
+    #[doc = " @note This method **does NOT** free the state pointer (@p aSctx)."]
+    pub fn STT_FinishStreamNoFree(aSctx: *mut StreamingState) -> *mut ::std::os::raw::c_char;
+
+    #[doc = " @brief Compute the final decoding of an ongoing streaming inference and return"]
     #[doc = "        results including metadata. Signals the end of an ongoing streaming"]
     #[doc = "        inference."]
     #[doc = ""]
@@ -361,6 +372,24 @@ extern "C" {
     #[doc = ""]
     #[doc = " @note This method will free the state pointer (@p aSctx)."]
     pub fn STT_FinishStreamWithMetadata(
+        aSctx: *mut StreamingState,
+        aNumResults: ::std::os::raw::c_uint,
+    ) -> *mut Metadata;
+
+    #[doc = " @brief Compute the final decoding of an ongoing streaming inference and return"]
+    #[doc = "        results including metadata. Signals the end of an ongoing streaming"]
+    #[doc = "        inference."]
+    #[doc = ""]
+    #[doc = " @param aSctx A streaming state pointer returned by {@link STT_CreateStream()}."]
+    #[doc = " @param aNumResults The number of candidate transcripts to return."]
+    #[doc = ""]
+    #[doc = " @return Metadata struct containing multiple candidate transcripts. Each transcript"]
+    #[doc = "         has per-token metadata including timing information. The user is"]
+    #[doc = "         responsible for freeing Metadata by calling {@link STT_FreeMetadata()}."]
+    #[doc = "         Returns NULL on error."]
+    #[doc = ""]
+    #[doc = " @note This method **does NOT** free the state pointer (@p aSctx)."]
+    pub fn STT_FinishStreamWithMetadataNoFree(
         aSctx: *mut StreamingState,
         aNumResults: ::std::os::raw::c_uint,
     ) -> *mut Metadata;
